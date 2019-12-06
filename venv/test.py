@@ -1,12 +1,3 @@
-import os
-
-path = r'C:\Users\AlnthraevaN\Documents\Overwatch'
-
-files = []
-# r=root, d=directories, f = files
-for r, d, f in os.walk(path):
-    for file in f:
-        files.append(os.path.join(r, file))
-
-for f in files:
-    print(f)
+import fasttext
+model = fasttext.load_model('cbowModel.bin')
+print(model.words) # list of words in dictionary

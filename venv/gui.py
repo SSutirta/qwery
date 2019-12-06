@@ -1,6 +1,7 @@
 import os
 from tkinter import filedialog
 from tkinter import *
+import fasttext
 
 root = Tk()
 path = StringVar()
@@ -12,19 +13,30 @@ def browse_button():
     path.set(filename)
     print(filename)
 
+def retrieve_input():
+    input = self.e1.get("1.0",END)
+    print(input)
+
 # r=root, d=directories, f = files
 def search(path):
     files = []
     print(path)
     for r, d, f in os.walk(path):
         for file in f:
-            files.append(os.path.join(r, file))
-
+            #files.append(os.path.join(r, file)) #directory + file
+            files.append(file + "\n")
+    file1 = open("text.txt", "w")
     for f in files:
-        print(f)
+        file1.writelines(f)
+    file1.close()
+    model = fasttext.skipgram("text.txt", "model")
+    print(model.words)  # list of words in dictionary
 
-e1 = Entry(master=root)
-e1.insert(0, 'keyword')
+    print(model['fig'])  # get the vector of the word 'machine'
+
+
+e1 = Text(master=root)
+#e1.insert(0, 'keyword')
 e1.grid(row=0, columnspan=4)
 lbl1 = Label(master=root,textvariable=path)
 lbl1.grid(row=2, column=1)
